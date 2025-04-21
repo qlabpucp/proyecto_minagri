@@ -1,0 +1,200 @@
+********************************************************************
+* META-ANÁLISIS: EFECTO DE LA EDAD DE INGRESO ESCOLAR EN EL RENDIMIENTO ACADÉMICO
+* Autor: [Tu nombre]
+* Fecha: Abril 2025
+********************************************************************
+
+* Configuración inicial
+clear all
+set more off
+cd "[RUTA_DE_TU_DIRECTORIO]"  // Reemplazar con tu directorio de trabajo
+
+* Instalar paquetes necesarios (si no están instalados)
+* ssc install metan
+* ssc install metaan
+* ssc install metareg
+* ssc install metabias
+* ssc install metaninf
+* ssc install metatrim
+
+* Importar datos
+import delimited "paste.txt", delimiter(";") clear
+
+* Mostrar información básica del dataset
+describe
+summarize
+
+************************************************************************
+* 1. LIMPIEZA Y PREPARACIÓN DE DATOS
+************************************************************************
+
+* Convertir variables a formato numérico
+destring efecto, replace
+destring se, replace
+destring anio, replace
+destring n, replace force  // La n tiene comas como separador decimal
+destring edad_evaluacion, replace
+destring Kinder, replace
+
+* Reemplazar valores faltantes en efecto_std con el valor original
+replace efecto_std = efecto if efecto_std == ""
+destring efecto_std, replace
+
+* Preparar métrica del tamaño del efecto
+gen efecto_final = efecto
+
+* Calcular varianza y pesos
+gen variance = se^2
+gen weight = 1/variance
+
+* Calcular intervalos de confianza al 95%
+gen ci_lower = efecto_final - 1.96*se
+gen ci_upper = efecto_final + 1.96*se
+
+* Crear variable para nivel de desarrollo económico
+gen desarrollo = .
+replace desarrollo = 1 if inlist(pais, "Estados Unidos", "Suiza", "Inglaterra", "Grecia", "Islandia", "Japon", "Nueva_zelanda", "Noruega", "Portugal", "Canada", "Austria", "Estados_unidos") 
+replace desarrollo = 0 if inlist(pais, "México", "España", "Italia", "Israel", "Republica_checa")
+label define desarrollo_lbl 0 "En desarrollo/Intermedios" 1 "Desarrollados"
+label values desarrollo desarrollo_lbl
+
+* Codificar diseño metodológico
+gen diseno_tipo = .
+replace diseno_tipo = 1 if tipo_diseño == "IV"
+replace diseno_tipo = 2 if strpos(diseño_RDD, "Sharp") > 0
+replace diseno_tipo = 3 if strpos(diseño_RDD, "Fuzzy") > 0
+label define diseno_lbl 1 "Variables Instrumentales" 2 "RDD Sharp" 3 "RDD Fuzzy"
+label values diseno_tipo diseno_lbl
+
+* Codificar la materia evaluada
+gen materia_cod = .
+replace materia_cod = 1 if strpos(lower(Materia), "mate") > 0
+replace materia_cod = 2 if strpos(lower(Materia), "lect") > 0
+label define materia_lbl 1 "Matemáticas" 2 "Lectura"
+label values materia_cod materia_lbl
+
+* Categorizar por edad de evaluación
+gen edad_cat = .
+replace edad_cat = 1 if edad_evaluacion <= 7
+replace edad_cat = 2 if edad_evaluacion > 7 & edad_evaluacion <= 10
+replace edad_cat = 3 if edad_evaluacion > 10
+label define edad_lbl 1 "5-7 años" 2 "8-10 años" 3 "11+ años"
+label values edad_cat edad_lbl
+
+* Crear variable para tamaño de muestra
+gen muestra_grande = (n > 10000)
+label define muestra_lbl 0 "Muestra pequeña/mediana" 1 "Muestra grande"
+label values muestra_grande muestra_lbl
+
+* Crear variable para año de publicación reciente
+gen estudio_reciente = (anio >= 2015)
+label define reciente_lbl 0 "2006-2014" 1 "2015-2024"
+label values estudio_reciente reciente_lbl
+
+* Guardar el dataset limpio
+save "metaanalisis_datos_limpios.dta", replace
+
+************************************************************************
+* 2. ANÁLISIS DESCRIPTIVO
+************************************************************************
+
+* Estadísticas descriptivas de los estudios
+tabstat efecto_final se n, by(autor) stat(mean min max n)
+
+* Número de estudios por país
+tab pais
+
+* Número de estudios por nivel de desarrollo
+tab desarrollo
+
+* Número de estudios por materia
+tab materia_cod
+
+* Número de estudios por tipo de diseño
+tab diseno_tipo
+
+************************************************************************
+* 3. META-ANÁLISIS DE EFECTOS ALEATORIOS
+************************************************************************
+
+* Meta-análisis general de efectos aleatorios
+metan efecto_final se, random label(namevar=autor yearvar=anio) sortby(anio) ///
+      texts(80) xlabel(-0.5, 0, 0.5, 1) ///
+      title("Efecto de la edad de ingreso escolar en el rendimiento académico") ///
+      favours(Desventaja para jóvenes # Ventaja para mayores)
+
+* Guardar gráfico
+graph export "forest_plot_general.png", replace width(2000)
+
+* Prueba de heterogeneidad
+estat heterogeneity
+
+************************************************************************
+* 4. ANÁLISIS POR SUBGRUPOS
+************************************************************************
+
+* Análisis por nivel de desarrollo económico
+metan efecto_final se, random by(desarrollo) label(namevar=autor) ///
+      texts(80) xlabel(-0.5, 0, 0.5, 1) ///
+      title("Efecto por nivel de desarrollo económico") ///
+      favours(Desventaja para jóvenes # Ventaja para mayores)
+
+graph export "forest_plot_desarrollo.png", replace width(2000)
+
+* Análisis por materia
+metan efecto_final se, random by(materia_cod) label(namevar=autor) ///
+      texts(80) xlabel(-0.5, 0, 0.5, 1) ///
+      title("Efecto por materia evaluada") ///
+      favours(Desventaja para jóvenes # Ventaja para mayores)
+
+graph export "forest_plot_materia.png", replace width(2000)
+
+* Análisis por tipo de diseño
+metan efecto_final se, random by(diseno_tipo) label(namevar=autor) ///
+      texts(80) xlabel(-0.5, 0, 0.5, 1) ///
+      title("Efecto por tipo de diseño metodológico") ///
+      favours(Desventaja para jóvenes # Ventaja para mayores)
+
+graph export "forest_plot_diseno.png", replace width(2000)
+
+* Análisis por edad de evaluación
+metan efecto_final se, random by(edad_cat) label(namevar=autor) ///
+      texts(80) xlabel(-0.5, 0, 0.5, 1) ///
+      title("Efecto por edad de evaluación") ///
+      favours(Desventaja para jóvenes # Ventaja para mayores)
+
+graph export "forest_plot_edad.png", replace width(2000)
+
+************************************************************************
+* 5. META-REGRESIÓN
+************************************************************************
+
+* Meta-regresión simple con desarrollo como moderador
+metareg efecto_final desarrollo, wsse(se)
+
+* Meta-regresión múltiple
+metareg efecto_final desarrollo i.materia_cod i.diseno_tipo, wsse(se)
+
+* Meta-regresión completa con todas las variables moderadoras
+metareg efecto_final desarrollo i.materia_cod i.diseno_tipo edad_evaluacion i.Kinder, wsse(se)
+
+* Meta-regresión con gráfico de burbuja para desarrollo
+metareg efecto_final desarrollo, wsse(se) bubbleplot
+graph export "metareg_desarrollo_bubble.png", replace width(1500)
+
+************************************************************************
+* 6. ANÁLISIS DE ROBUSTEZ Y SESGO
+************************************************************************
+
+* Análisis de influencia (leave-one-out)
+metaninf efecto_final se, random
+graph export "leave_one_out.png", replace width(1500)
+
+* Gráfico de embudo (funnel plot)
+metafunnel efecto_final se, xtitle(Tamaño del efecto) ytitle(Error estándar) 
+graph export "funnel_plot.png", replace width(1500)
+
+* Prueba de Egger para asimetría del gráfico de embudo
+metabias efecto_final se, egger
+
+*
