@@ -14,7 +14,6 @@ minagri_satelital_libertad/
 │
 ├── data/                            # Link de imagenes descargadas y extraídas
 │
-│
 ├── referencias/               
 │   ├── coordenadas.xlsx       # Coordenadas y cuadrantes
 │   └── mapa_cuadrantes.png    
