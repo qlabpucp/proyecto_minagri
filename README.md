@@ -7,6 +7,8 @@ Este repositorio contiene scripts automatizados para gestionar imágenes satelit
 3. ✅ **Verificar** imágenes faltantes o sobrantes en cada carpeta
 4. 🗃️ **Organizar** moviendo archivos inesperados o duplicados a carpetas separadas
 
+Las imagenes extraidas se encuentran dipsonibles en esta carpeta https://drive.google.com/drive/folders/1cspWWZqaibg9acpIYwE9ctbngHOqg8N_?usp=drive_link
+
 ## 📋 Estructura del Proyecto
 
 ```
