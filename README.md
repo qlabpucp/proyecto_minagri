@@ -17,6 +17,9 @@ minagri_satelital_libertad/
 │   ├── FEBRERO_2024/
 │   └── ...
 │
+├── referencias/               
+│   ├── coordenadas.xlsx       # coordenadas y cuadrantes
+│   └── mapa_cuadrantes.png    
 ├── src/                            # Código fuente organizado por tarea
 │   ├── extract_images.py           # Descarga imágenes satelitales del portal MINAGRI
 │   ├── upload_drive.py             # Sube archivos TIF a Google Drive
