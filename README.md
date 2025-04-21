@@ -106,14 +106,13 @@ Funcionalidad:
 El proyecto gestiona mosaicos de imágenes satelitales utilizando un sistema de códigos estandarizado:
 - Formato: `IRCXXXX` (ej., IRC2208)
 - 187 códigos únicos que representan coordenadas geográficas específicas
-- Las imágenes siguen el patrón de nomenclatura: `PLANET_IR:CXXXX_MES_AÑO`
 
 ## ⚠️ Notas Importantes
 
 - El script de extracción utiliza PyAutoGUI, así que no muevas el mouse durante la ejecución
 - La resolución de pantalla debe coincidir con lo que espera el script (predeterminado: 1366x768)
 - Evita interrumpir el proceso de automatización de Chrome
-- Excluidos de git: archivos de imagen (.tif, .zip), credenciales, registros
+
 
 ## 📜 Licencia
 
