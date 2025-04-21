@@ -12,20 +12,18 @@ Este repositorio contiene scripts automatizados para gestionar imágenes satelit
 ```
 minagri_satelital_libertad/
 │
-├── data/                            # Imágenes descargadas y extraídas
-│   ├── ENERO_2024/
-│   ├── FEBRERO_2024/
-│   └── ...
+├── data/                            # Link de imagenes descargadas y extraídas
 │
+│
+├── referencias/               
+│   ├── coordenadas.xlsx       # Coordenadas y cuadrantes
+│   └── mapa_cuadrantes.png    
 ├── src/                            # Código fuente organizado por tarea
 │   ├── extract_images.py           # Descarga imágenes satelitales del portal MINAGRI
 │   ├── upload_drive.py             # Sube archivos TIF a Google Drive
 │   ├── verify_images.py            # Verifica que los códigos de imagen esperados estén presentes
 │   ├── move_unexpected.py          # Procesa códigos de imagen inesperados
 │
-├── logs/                           # Registros de ejecución y errores
-│
-├── .gitignore                      # Ignora archivos grandes y credenciales
 ├── requirements.txt                # Bibliotecas requeridas
 └── README.md                       # Documentación del proyecto
 ```
@@ -120,6 +118,4 @@ El proyecto gestiona mosaicos de imágenes satelitales utilizando un sistema de 
 
 Este proyecto está licenciado bajo la Licencia MIT - consulta el archivo LICENSE para más detalles.
 
-## 👥 Colaboradores
 
-- [Tu Nombre] - Trabajo inicial y desarrollo
