@@ -24,9 +24,8 @@ minagri_satelital_libertad/
 │   ├── verify_images.py            # Verifica que los códigos de imagen esperados estén presentes
 │   ├── move_unexpected.py          # Procesa códigos de imagen inesperados
 │
-├── logs/                           # Registros de ejecución y errores
 │
-├── .gitignore                      # Ignora archivos grandes y credenciales
+│
 ├── requirements.txt                # Bibliotecas requeridas
 └── README.md                       # Documentación del proyecto
 ```
