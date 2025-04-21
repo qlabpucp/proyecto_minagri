@@ -121,6 +121,4 @@ El proyecto gestiona mosaicos de imágenes satelitales utilizando un sistema de 
 
 Este proyecto está licenciado bajo la Licencia MIT - consulta el archivo LICENSE para más detalles.
 
-## 👥 Colaboradores
 
-- [Tu Nombre] - Trabajo inicial y desarrollo
