@@ -1,125 +1,125 @@
-# 📡 Minagri Satellite Image Scraper - La Libertad Region
+# 📡 Extractor de Imágenes Satelitales Minagri - Región La Libertad
 
-This repository contains automated scripts for handling satellite imagery from Peru's Ministry of Agriculture (MINAGRI), specifically focused on the La Libertad region:
+Este repositorio contiene scripts automatizados para gestionar imágenes satelitales del Ministerio de Agricultura (MINAGRI) de Perú, específicamente enfocados en la región La Libertad:
 
-1. 📥 **Download** satellite mosaics from MINAGRI's web portal
-2. ☁️ **Upload** extracted images to Google Drive
-3. ✅ **Verify** missing or extra images in each folder
-4. 🗃️ **Organize** by moving unexpected or duplicate files to separate folders
+1. 📥 **Descargar** mosaicos satelitales desde el portal web de MINAGRI
+2. ☁️ **Subir** imágenes extraídas a Google Drive
+3. ✅ **Verificar** imágenes faltantes o sobrantes en cada carpeta
+4. 🗃️ **Organizar** moviendo archivos inesperados o duplicados a carpetas separadas
 
-## 📋 Project Structure
+## 📋 Estructura del Proyecto
 
 ```
 minagri_satelital_libertad/
 │
-├── data/                            # Downloaded and extracted images
+├── data/                            # Imágenes descargadas y extraídas
 │   ├── ENERO_2024/
 │   ├── FEBRERO_2024/
 │   └── ...
 │
-├── src/                            # Source code organized by task
-│   ├── extract_images.py           # Download satellite images from MINAGRI portal
-│   ├── upload_drive.py             # Upload TIF files to Google Drive
-│   ├── verify_images.py            # Verify expected image codes are present
-│   ├── move_unexpected.py          # Process unexpected image codes
+├── src/                            # Código fuente organizado por tarea
+│   ├── extract_images.py           # Descarga imágenes satelitales del portal MINAGRI
+│   ├── upload_drive.py             # Sube archivos TIF a Google Drive
+│   ├── verify_images.py            # Verifica que los códigos de imagen esperados estén presentes
+│   ├── move_unexpected.py          # Procesa códigos de imagen inesperados
 │
-├── logs/                           # Execution and error logs
+├── logs/                           # Registros de ejecución y errores
 │
-├── .gitignore                      # Ignore large files and credentials
-├── requirements.txt                # Required libraries
-└── README.md                       # Project documentation
+├── .gitignore                      # Ignora archivos grandes y credenciales
+├── requirements.txt                # Bibliotecas requeridas
+└── README.md                       # Documentación del proyecto
 ```
 
-## 🛠️ Setup & Installation
+## 🛠️ Configuración e Instalación
 
-1. Clone this repository:
+1. Clona este repositorio:
    ```bash
-   git clone https://github.com/yourusername/minagri_satelital_libertad.git
+   git clone https://github.com/tuusuario/minagri_satelital_libertad.git
    cd minagri_satelital_libertad
    ```
 
-2. Install required dependencies:
+2. Instala las dependencias requeridas:
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Configure Google Drive API credentials:
-   - Download your `client_secret.json` from Google Cloud Console
-   - Place it in a secure location referenced in the scripts
+3. Configura las credenciales de la API de Google Drive:
+   - Descarga tu `client_secret.json` desde Google Cloud Console
+   - Colócalo en una ubicación segura referenciada en los scripts
 
-## 📋 Requirements
+## 📋 Requisitos
 
 - Python 3.7+
-- Chrome browser (for Selenium)
-- Google Drive account with sufficient storage
-- Stable screen resolution (scripts use PyAutoGUI)
+- Navegador Chrome (para Selenium)
+- Cuenta de Google Drive con almacenamiento suficiente
+- Resolución de pantalla estable (los scripts utilizan PyAutoGUI)
 
-## 🚀 Usage
+## 🚀 Uso
 
-### 1. Extract satellite images
+### 1. Extraer imágenes satelitales
 
 ```bash
 python src/extract_images.py
 ```
 
-This script automates:
-- Navigating to the MINAGRI geospatial portal
-- Selecting time periods (month/year)
-- Clicking on predefined coordinates to download image tiles
-- Saving downloaded zip files to organized folders
+Este script automatiza:
+- Navegación al portal geoespacial de MINAGRI
+- Selección de períodos de tiempo (mes/año)
+- Clic en coordenadas predefinidas para descargar mosaicos de imágenes
+- Guardado de archivos zip descargados en carpetas organizadas
 
-### 2. Upload to Google Drive 
+### 2. Subir a Google Drive 
 
 ```bash
 python src/upload_drive.py
 ```
 
-Features:
-- Authenticates with Google Drive
-- Creates organized folder structure by year and month
-- Extracts TIF files from downloaded ZIPs
-- Uploads files with appropriate naming
+Características:
+- Autenticación con Google Drive
+- Creación de estructura de carpetas organizadas por año y mes
+- Extracción de archivos TIF de los ZIPs descargados
+- Carga de archivos con nombres apropiados
 
-### 3. Verify image integrity
+### 3. Verificar integridad de imágenes
 
 ```bash
 python src/verify_images.py
 ```
 
-This script:
-- Checks each monthly folder against a predefined list of expected image codes
-- Reports missing or unexpected image codes
-- Provides summary statistics
+Este script:
+- Verifica cada carpeta mensual contra una lista predefinida de códigos de imagen esperados
+- Informa sobre códigos de imagen faltantes o inesperados
+- Proporciona estadísticas resumidas
 
-### 4. Process unexpected files
+### 4. Procesar archivos inesperados
 
 ```bash
 python src/move_unexpected.py
 ```
 
-Functionality:
-- Identifies files with unexpected codes or duplicates
-- Moves these files to a subfolder for manual review
-- Logs all moved files
+Funcionalidad:
+- Identifica archivos con códigos inesperados o duplicados
+- Mueve estos archivos a una subcarpeta para revisión manual
+- Registra todos los archivos movidos
 
-## 🗂️ Image Code System
+## 🗂️ Sistema de Códigos de Imagen
 
-The project manages satellite image tiles using a standardized code system:
-- Format: `IRCXXXX` (e.g., IRC2208)
-- 187 unique codes representing specific geographic coordinates
-- Images follow naming pattern: `PLANET_IR:CXXXX_MONTH_YEAR`
+El proyecto gestiona mosaicos de imágenes satelitales utilizando un sistema de códigos estandarizado:
+- Formato: `IRCXXXX` (ej., IRC2208)
+- 187 códigos únicos que representan coordenadas geográficas específicas
+- Las imágenes siguen el patrón de nomenclatura: `PLANET_IR:CXXXX_MES_AÑO`
 
-## ⚠️ Important Notes
+## ⚠️ Notas Importantes
 
-- The extraction script uses PyAutoGUI, so don't move your mouse during execution
-- Screen resolution should match what the script expects (default: 1366x768)
-- Avoid interrupting the Chrome automation process
-- Excluded from git: image files (.tif, .zip), credentials, logs
+- El script de extracción utiliza PyAutoGUI, así que no muevas el mouse durante la ejecución
+- La resolución de pantalla debe coincidir con lo que espera el script (predeterminado: 1366x768)
+- Evita interrumpir el proceso de automatización de Chrome
+- Excluidos de git: archivos de imagen (.tif, .zip), credenciales, registros
 
-## 📜 License
+## 📜 Licencia
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Este proyecto está licenciado bajo la Licencia MIT - consulta el archivo LICENSE para más detalles.
 
-## 👥 Contributors
+## 👥 Colaboradores
 
-- [Your Name] - Initial work and development
+- [Tu Nombre] - Trabajo inicial y desarrollo
