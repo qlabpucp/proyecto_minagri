@@ -12,10 +12,8 @@ Este repositorio contiene scripts automatizados para gestionar imágenes satelit
 ```
 minagri_satelital_libertad/
 │
-├── data/                            # Imágenes descargadas y extraídas
-│   ├── ENERO_2024/
-│   ├── FEBRERO_2024/
-│   └── ...
+├── data/                            # Link de imagenes descargadas y extraídas
+│
 │
 ├── referencias/               
 │   ├── coordenadas.xlsx       # Coordenadas y cuadrantes
