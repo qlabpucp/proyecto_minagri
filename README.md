@@ -24,8 +24,8 @@ minagri_satelital_libertad/
 │   ├── upload_drive.py             # Sube archivos TIF a Google Drive
 │   ├── verify_images.py            # Verifica que los códigos de imagen esperados estén presentes
 │   ├── move_unexpected.py          # Procesa códigos de imagen inesperados
-│   ├── extract_images_2018_2019.py # Descarga imágenes satelitales del portal MINAGRI para los años 2016-2020
-│   ├── upload_drive_2018_2019.py   # Sube archivos TIF a Google Drive para los años 2016-2020
+│   ├── extract_images_2018-2019.py # Descarga imágenes satelitales del portal MINAGRI para los años 2016-2020
+│   ├── upload_drive_2018-2019.py   # Sube archivos TIF a Google Drive para los años 2016-2020
 ├── requirements.txt                # Bibliotecas requeridas
 └── README.md                       # Documentación del proyecto
 ```
