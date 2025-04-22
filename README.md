@@ -24,7 +24,8 @@ minagri_satelital_libertad/
 │   ├── upload_drive.py             # Sube archivos TIF a Google Drive
 │   ├── verify_images.py            # Verifica que los códigos de imagen esperados estén presentes
 │   ├── move_unexpected.py          # Procesa códigos de imagen inesperados
-│
+│   ├── extract_images_2018_2019.py # Descarga imágenes satelitales del portal MINAGRI para los años 2016-2020
+│   ├── upload_drive_2018_2019.py   # Sube archivos TIF a Google Drive para los años 2016-2020
 ├── requirements.txt                # Bibliotecas requeridas
 └── README.md                       # Documentación del proyecto
 ```
@@ -112,7 +113,8 @@ El proyecto gestiona mosaicos de imágenes satelitales utilizando un sistema de 
 - El script de extracción utiliza PyAutoGUI, así que no muevas el mouse durante la ejecución
 - La resolución de pantalla debe coincidir con lo que espera el script (predeterminado: 1366x768)
 - Evita interrumpir el proceso de automatización de Chrome
-
+- La extracción de datos de MINAGRI a partir de 2016 hasta marzo de 2020 mantienen un formato diferente, por lo que se sugiere utilizar los scripts diseñados para esos años
+- El script para subir a Drive datos de 2016 a 2020 crea las carpetas en formato `20XX_XX`(ej., 2020_05) que toman la ultima fecha del periodo
 
 ## 📜 Licencia
 
